@@ -251,22 +251,30 @@ function permAlone(str) {
 
 permAlone('aab');
 
-function permutation(item) {
-  item = [...item];
-  let length = item.length-1;
-  let newArr = [item];
 
-  function rearrange(array) {
-    return newArr.push(array.map((item, i, arr) => i === arr.length - 1
-                                      ? item = arr[0]
-                                      : item = arr[i+1]));
-  }
-  for(let i = 0; i < length; i++) {
-    rearrange(newArr[i])
-  }
-  console.log(newArr);
+// console.log(permutation('aab'));
+// console.log(permutation('abc'));
+// console.log(permutation("aaa"));
+
+function permutation(str) {
+  str = [...str];
+
+  let permu = str.map((item, i, arr) => {
+    let index = i;
+    let slice = arr.filter((v, i) => i !== index);
+    return [[item].concat(slice), [item].concat(slice.reverse())];
+  }).flat();
+  console.log(permu);
+  let answer = permu.filter((item) => {
+    let count = 0;
+    for(let j = 0; j < item.length; j++) {
+      if(item[j] === item[j+1]) count++;
+    }
+    return count > 0 ? false : true;
+  })
+  console.log(answer);
+  return answer.length;
 }
 
-permutation('ABC');
 ```
 
