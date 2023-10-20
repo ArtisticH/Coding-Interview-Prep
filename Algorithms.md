@@ -83,12 +83,94 @@ function sym() {
 - 하나의 결과값 result
 
 
-##
-📝
+## Inventory Update
+
+Compare and update the inventory stored in a 2D array against a second 2D array of a fresh delivery. Update the current existing inventory item quantities (in arr1). If an item cannot be found, add the new item and quantity into the inventory array. The returned inventory array should be in alphabetical order by item.
+  
+  
+📝  
+- new 배열 요소 하나가 cur 배열 전체를 순회하며 같은 문자열 값이 있는지 검사
+- 있다면, `existed = true`하고, 숫자 값 add
+- 없다면, `existed = false`라면 cur 배열에 추가
+- 마지막으로 문자열 오름차순
+
+
 ```javascript
+function updateInventory(arr1, arr2) {
+    arr2.forEach((item_new, index_new, arr_new) => {
+        let existed = false;
+        arr1.forEach((item_cur, index_cur, arr_cur) => {
+            if(item_cur.includes(item_new[1])) {
+                item_cur[0] += item_new[0];
+                existed = true;
+                return;
+            }
+        })
+        if(!existed) {
+            arr1.push(item_new);
+        }
+    })
+    return arr1.sort((a, b) => a[1] > b[1] ? 1 : a[1] < b[1] ? -1 : 0);
+}
+
+// Example inventory lists
+var curInv = [
+    [21, "Bowling Ball"],
+    [2, "Dirty Sock"],
+    [1, "Hair Pin"],
+    [5, "Microphone"]
+];
+
+var newInv = [
+    [2, "Hair Pin"],
+    [3, "Half-Eaten Apple"],
+    [67, "Bowling Ball"],
+    [7, "Toothpaste"]
+];
+
+console.log(updateInventory(curInv, newInv));
+/*
+[[88, "Bowling Ball"], [2, "Dirty Sock"], [3, "Hair Pin"], [3, "Half-Eaten Apple"], [5, "Microphone"], [7, "Toothpaste"]]
+*/
+console.log(updateInventory([[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]], []));
+/*
+[[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]]
+*/
+console.log(updateInventory([], [[2, "Hair Pin"], [3, "Half-Eaten Apple"], [67, "Bowling Ball"], [7, "Toothpaste"]]));
+/*
+[[67, "Bowling Ball"], [2, "Hair Pin"], [3, "Half-Eaten Apple"], [7, "Toothpaste"]]
+*/
+console.log(updateInventory([[0, "Bowling Ball"], [0, "Dirty Sock"], [0, "Hair Pin"], [0, "Microphone"]], [[1, "Hair Pin"], [1, "Half-Eaten Apple"], [1, "Bowling Ball"], [1, "Toothpaste"]]));
+/*
+[[1, "Bowling Ball"], [0, "Dirty Sock"], [1, "Hair Pin"], [1, "Half-Eaten Apple"], [0, "Microphone"], [1, "Toothpaste"]]
+*/
 ```
 🔐 solution1
 ```javascript
+function updateInventory(currentInventory, newInventory) {
+  // Check each item of new inventory
+  for (let newItem of newInventory) {
+    let found = false;
+    // Check against current inventory
+    for (let oldItem of currentInventory) {
+      // Update value if new item is found
+      if (newItem[1] === oldItem[1]) {
+        oldItem[0] += newItem[0];
+        found = true;
+        break;
+      }
+    }
+    // Otherwise add item to the old inventory
+    if (!found) currentInventory.push([...newItem]);
+  }
+  // Alphabetize and put into original array format
+  return currentInventory
+    .sort((a, b) => {
+        if (a[1] < b[1]) return -1;
+        if (a[1] > b[1]) return 1;
+        return 0;
+    });
+}
 ```
 
 ##
