@@ -76,3 +76,8 @@ function sym() {
   return args.reduce(symDiff);
 }
 ```
+
+- 인수 배열에 대해 reduce 메서드
+- arrayOne 요소 중에 arrayTwo에 속하지 않고 중복되지 않는 것만 추가.
+- arrayTwo도 마찬가지.
+- 하나의 결과값 result
