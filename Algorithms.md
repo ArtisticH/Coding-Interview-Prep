@@ -272,12 +272,58 @@ Here we will see bubble sort. The bubble sort method starts at the beginning of 
 
 This method requires multiple iterations through the array and for average and worst cases has quadratic time complexity. While simple, it is usually impractical in most situations.
 
-Instructions: Write a function `bubbleSort` which takes an array of integers as input and returns an array of these integers in sorted order from least to greatest.
-📝
+Instructions: Write a function `bubbleSort` which takes an array of integers as input and returns an array of these integers in sorted order from least to greatest.  
+
+📝  
+- 만약 현재 요소가 다음 요소보다 크다면 자리를 바꾼다. 그리고 count++;
+- count가 0이 될 때까지 반복한다. 0이라면 더 이상 바꿀 자리가 없다는 뜻
 ```javascript
+function bubbleSort(array) {
+  // Only change code below this line
+  let count = 0;
+  array.forEach((item, index, arr) => {
+    if(item > arr[index + 1]) {
+      count++;
+      [array[index], array[index + 1]] = [array[index + 1], array[index]];
+    }
+  })
+  if(count > 0) return bubbleSort(array);
+  return array;
+  // Only change code above this line
+}
+
+console.log(bubbleSort([1,4,2,8,345,123,43,32,5643,63,123,43,2,55,1,234,92])); // [ 1, 1, 2, 2, 4, 8, 32, 43, 43, 55, 63, 92, 123, 123, 234, 345, 5643 ]
 ```
 🔐 solution1
 ```javascript
+function swap(a, b, arr) {
+  let tmp = arr[a];
+  arr[a] = arr[b];
+  arr[b] = tmp;
+}
+function bubbleSort(array) {
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array.length - 1 - i; j++) {
+      // -i because the largest element will be bubbled at the end so we don't have to compare.
+      if (array[j] > array[j + 1]) {
+        swap(j, j + 1, array);
+      }
+    }
+  }
+  return array;
+}
+```
+🔐 solution2
+```javascript
+function bubbleSort(array) {
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array.length - 1 - i; j++) {
+      if (array[j] > array[j + 1])
+        [array[j], array[j + 1]] = [array[j + 1], array[j]]; // Using ES6 array destructuring to swap
+    }
+  }
+  return array;
+}
 ```
 
 ##
