@@ -184,23 +184,16 @@ For example, `aab` should return 2 because it has 6 total permutations (`aab`, `
 ```javascript
 function permAlone(str) {
   const strArr = str.split('');
-  const permutationArr = [];
+  permutationArr = [];
+  let answer = [str];
 
-  function permutations(item, index, arr) {
- 
+  // if(strArr.length === 1) return 1;
+  if(strArr.length === 3) {
+    strArr.forEach(permutationForThree);
+    answer = permutationArr.filter(noRepeats);
   }
-
-  function noRepeats(item, index, arr) {
-
-  }
-
-  function permutationForTwo(arr) {
-
-  }
+  return answer.length;
 }
-
-// console.log(permAlone('aab'));
-
 
 function permutationForTwo(arr) {
     let array = [];
@@ -225,18 +218,13 @@ function noRepeats(item, index, arr) {
     if(item[i] === item[i + 1]) repeated++;
   }
 
-  if(repeated > 0) {
-    return false;
-  } else {
-    return true;
-  }
+  if(repeated > 0) return false;
+  else             return true;
 }
 
-const str = ['a', 'a', 'b'];
-str.forEach(permutationForThree);
-const answer = permutationArr.filter(noRepeats);
-console.log(answer.length)
-
+console.log(permAlone('aab'));
+console.log(permAlone('aaa'));
+console.log(permAlone('a'));
 ```
 🔐 solution1
 ```javascript
