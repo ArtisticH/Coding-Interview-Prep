@@ -237,9 +237,12 @@ function permAlone(str) {
   let tmp;
 
   // Return 0 if str contains same character.
+  // 모든 문자가 동일할때
+  // 함수 실행 종료
   if (str.match(regex) !== null && str.match(regex)[0] === str) return 0;
 
   // Function to swap variables' content.
+  // 두 인덱스의 요소를 교환, 나중에 순열 생성시 사용
   function swap(index1, index2) {
     tmp = arr[index1];
     arr[index1] = arr[index2];
@@ -247,12 +250,16 @@ function permAlone(str) {
   }
 
   // Generate arrays of permutations using the algorithm.
+  // 백트래킹을 통해 가능한 모든 순열을 생성, 재귀적으로 순열을 생성, 가능한 모든 순열을 생성
   function generate(int) {
     if (int === 1) {
       // Make sure to join the characters as we create  the permutation arrays
+      // int가 1이면 배열 arr에 있는 문자를 조합하여 하나의 순열을 생성
       permutations.push(arr.join(""));
     } else {
-      for (let i = 0; i != int; ++i) {
+      // int가 1보다 큰 경우 반복문을 사용하여 가능한 모든 순열을 생성. 
+      // swap으로 배열 요소의 위치 변경
+      for (let i = 0; i != int; i++) {
         generate(int - 1);
         swap(int % 2 ? 0 : i, int - 1);
       }
@@ -260,8 +267,10 @@ function permAlone(str) {
   }
 
   generate(arr.length);
+  console.log(permutations);
 
   // Filter the array of repeated permutations.
+  // 반복되는 연속 문자가 없는 순열을 저장
   const filtered = permutations.filter(function(string) {
     return !string.match(regex);
   });
@@ -272,6 +281,11 @@ function permAlone(str) {
 
 // Test here.
 permAlone("aab");
+
+
+console.log("a".match(/(.)\1+/)); // null
+console.log("zzzzzzzzzz".match(/(.)\1+/)[0]); // zzzzzzzzzz
+console.log("aaa".match(/(.)\1+/)[0]); // aaa
 ```
 
 **Code Explanation**
