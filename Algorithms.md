@@ -315,6 +315,7 @@ function bubbleSort(array) {
 ```
 - 처음 요소부터 끝까지 진행하면 가장 큰 숫자는 맨 뒤로 밀려나기 떄문에
 - 두 번째 반복을 시행할 때 맨 끝까지 진행할 필요가 없다. 만약 두 번째까지 반복을 마치면 맨 뒤의 두 숫자는 [..., 2번째로 큰 숫자, 가장 큰 숫자]
+
 🔐 solution2
 ```javascript
 function bubbleSort(array) {
