@@ -182,6 +182,61 @@ For example, `aab` should return 2 because it has 6 total permutations (`aab`, `
 
 📝
 ```javascript
+function permAlone(str) {
+  const strArr = str.split('');
+  const permutationArr = [];
+
+  function permutations(item, index, arr) {
+ 
+  }
+
+  function noRepeats(item, index, arr) {
+
+  }
+
+  function permutationForTwo(arr) {
+
+  }
+}
+
+// console.log(permAlone('aab'));
+
+
+function permutationForTwo(arr) {
+    let array = [];
+    [...array] = [[...arr], [...arr.reverse()]];
+    return array;
+}
+
+let permutationArr = [];
+
+function permutationForThree(item, index, arr) {
+  const restTwoArr = arr.filter((elem, elemIndex) => elemIndex !== index);
+  const twoPermutationArr = permutationForTwo(restTwoArr);
+  for(let i = 0; i < twoPermutationArr.length; i++) {
+    const oneOf = [item].concat(twoPermutationArr[i]);
+    permutationArr.push(oneOf);
+  }
+}
+
+function noRepeats(item, index, arr) {
+  let repeated = 0;
+  for(let i = 0; i < item.length; i++) {
+    if(item[i] === item[i + 1]) repeated++;
+  }
+
+  if(repeated > 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+const str = ['a', 'a', 'b'];
+str.forEach(permutationForThree);
+const answer = permutationArr.filter(noRepeats);
+console.log(answer.length)
+
 ```
 🔐 solution1
 ```javascript
