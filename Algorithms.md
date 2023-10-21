@@ -187,7 +187,6 @@ function permAlone(str) {
   permutationArr = [];
   let answer = [str];
 
-  // if(strArr.length === 1) return 1;
   if(strArr.length === 3) {
     strArr.forEach(permutationForThree);
     answer = permutationArr.filter(noRepeats);
