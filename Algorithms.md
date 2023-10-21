@@ -394,11 +394,40 @@ The next sorting method we'll look at is insertion sort. This method works by bu
 Instructions: Write a function `insertionSort` which takes an array of integers as input and returns an array of these integers in sorted order from least to greatest.  
 
 📝  
-- 
+- i는 1부터 시작하고, j는 0부터 i미포함. 만약 i가 3이라면 j는 0, 1, 2 반복
+- array[i] < array[j]인 순간을 발견하면, copy변수에 값을 저장하고, 원래 i요소를 삭제하고 j요소 앞에 삽입.
 ```javascript
+function insertionSort(array) {
+  // Only change code below this line
+  for(let i = 1; i < array.length; i++) {
+    for(let j = 0; j < i; j++) {
+      if(array[i] < array[j]) {
+        const copy = array[i];
+        array.splice(i, 1);
+        array.splice(j, 0, copy);
+      }
+    }
+  }
+  return array;
+  // Only change code above this line
+}
+
+console.log(insertionSort([6, 5, 3, 1, 8, 7, 2, 4]));
+console.log(insertionSort([5, 4, 33, 2, 8]));
+console.log(insertionSort([1,4,2,8,345,123,43,32,5643,63,123,43,2,55,1,234,92]));
 ```
 🔐 solution1
 ```javascript
+function insertionSort(array) {
+  for (let i = 1; i < array.length; i++) {
+    let curr = array[i];
+    for (var j = i - 1; j >= 0 && array[j] > curr; j--) {
+      array[j + 1] = array[j];
+    }
+    array[j + 1] = curr;
+  }
+  return array;
+}
 ```
 
 ##
