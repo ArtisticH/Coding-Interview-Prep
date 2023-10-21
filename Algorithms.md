@@ -329,16 +329,72 @@ function bubbleSort(array) {
 }
 ```
 
-##
-📝
+## Implement Selection Sort
+
+Here we will implement selection sort. Selection sort works by selecting the minimum value in a list and swapping it with the first value in the list. It then starts at the second position, selects the smallest value in the remaining list, and swaps it with the second element. It continues iterating through the list and swapping elements until it reaches the end of the list. Now the list is sorted. Selection sort has quadratic time complexity in all cases.
+
+Instructions: Write a function `selectionSort` which takes an array of integers as input and returns an array of these integers in sorted order from least to greatest.  
+
+📝  
+- 처음에 i의 현재 요소 값을 가장 작은 값으로 지정한다.
+- i + 1을 j로 하고 배열의 끝까지 순회하면서 더 작은 값이 있으면 더 작은 값과 그 인덱스를 할당한다.
+- 만약 `smallIndex === i`라면 처음의 i 값이 가장 작은 값이므로 다음 반복으로 넘어간다.
+- 그렇지 않다면, 현재 i 값과 가장 작은 값을 swap한다. 
 ```javascript
+function selectionSort(array) {
+  // Only change code below this line
+  for(let i = 0; i < array.length; i++) {
+    let smallValue = array[i];
+    let smallIndex = i;
+    
+    for(let j = i + 1; j < array.length; j++) {
+      if(smallValue > array[j]) {
+        smallValue = array[j];
+        smallIndex = j;
+      }
+    }
+
+    if(smallIndex === i) continue;
+
+    const firstValue = array[i];
+    array[i] = smallValue;
+    array[smallIndex] = firstValue;
+  }
+
+  return array;
+  // Only change code above this line
+}
+
+
+console.log(selectionSort([1,4,2,8,345,123,43,32,5643,63,123,43,2,55,1,234,92]));
 ```
 🔐 solution1
 ```javascript
+function swap(a, b, arr) {
+  let tmp = arr[a];
+  arr[a] = arr[b];
+  arr[b] = tmp;
+}
+function selectionSort(array) {
+  for (let i = 0; i < array.length - 1; i++) {
+    let min = i;
+    for (let j = i + 1; j < array.length; j++) {
+      if (array[min] > array[j]) min = j;
+    }
+    swap(i, min, array);
+  }
+  return array;
+}
 ```
 
-##
-📝
+## Implement Insertion Sort
+
+The next sorting method we'll look at is insertion sort. This method works by building up a sorted array at the beginning of the list. It begins the sorted array with the first element. Then it inspects the next element and swaps it backwards into the sorted array until it is in sorted position. It continues iterating through the list and swapping new items backwards into the sorted portion until it reaches the end. This algorithm has quadratic time complexity in the average and worst cases.
+
+Instructions: Write a function `insertionSort` which takes an array of integers as input and returns an array of these integers in sorted order from least to greatest.  
+
+📝  
+- 
 ```javascript
 ```
 🔐 solution1
