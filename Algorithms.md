@@ -187,12 +187,81 @@ For example, `aab` should return 2 because it has 6 total permutations (`aab`, `
 ```javascript
 ```
 
-##
-📝
+## Pairwise
+Given an array `arr`, find element pairs whose sum equal the second argument `arg` and return the sum of their indices.
+
+You may use multiple pairs that have the same numeric elements but different indices. Each pair should use the lowest possible available indices. Once an element has been used it cannot be reused to pair with another element. For instance, `pairwise([1, 1, 2], 3)` creates a pair `[2, 1]` using the 1 at index 0 rather than the 1 at index 1, because 0+2 < 1+2.
+
+For example `pairwise([7, 9, 11, 13, 15], 20)` returns `6`. The pairs that sum to 20 are `[7, 13]` and `[9, 11]`. We can then write out the array with their indices and values.  
+
+Below we'll take their corresponding indices and add them.
+
+7 + 13 = 20 → Indices 0 + 3 = 3  
+9 + 11 = 20 → Indices 1 + 2 = 3  
+3 + 3 = 6 → Return 6
+
+📝  
+- 배열을 순회하면서 [item, index]를 요소 값으로 가지는 새로운 배열 itemIndex을 만든다.
+- 중첩 반복문을 통해 현재 요소 숫자 값을 기준으로 그 다음의 index를 돌면서 pair넘버를 찾는다.
+- 값이 있다면, sum에 현재 요소(i)의 index값인 [item, index]의 index 값과 j로 찾은 요소의 index값을 더한다.
+- 그리고 같은 값을 또 발견하는 일이 없게 sum에 사용된 요소들은 null로 바꾼다.
+- 만약 현재 반복문의 요소가 null이라면 다음 반복문으로 넘어가고,
+- 중첩 반복문에서 이 과정을 마치면 break를 통해 다음의 j를 찾지 않고 다음 i를 찾는다. 
 ```javascript
+function pairwise(arr, arg) {
+  let itemIndex = [];
+  let sum = 0;
+
+  arr.forEach((item, index) => {
+    itemIndex.push([item, index]);
+  })
+
+  for(let i = 0; i < itemIndex.length; i++) {
+    if(itemIndex[i] == null) continue;
+
+    const pairNum = arg - itemIndex[i][0];
+
+    for(let j = i + 1; j < itemIndex.length; j++) {
+      if(itemIndex[j] == null) continue;
+      if(pairNum == itemIndex[j][0]) {
+        sum += itemIndex[i][1] + itemIndex[j][1];
+        itemIndex.splice(itemIndex[i][1], 1, null);
+        itemIndex.splice(itemIndex[j][1], 1, null);
+        break;
+      }
+    }
+    console.log('after break')
+  }
+  return sum;
+}
+
+console.log(pairwise([1,4,2,3,0,5], 7)); // 11
+console.log(pairwise([1, 3, 2, 4], 4)); // 1
+console.log(pairwise([1, 1, 1], 2)); // 1
+console.log(pairwise([0, 0, 0, 0, 1, 1], 1)); // 10
+console.log(pairwise([], 100)); // 0
 ```
 🔐 solution1
 ```javascript
+function pairwise(arr, arg) {
+  let pairIndices = [];
+  // Check every pair
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      // Exclude pairs that contain previously paired elements
+      if (arr[i] + arr[j] == arg
+          && !pairIndices.includes(i)
+          && !pairIndices.includes(j)) {
+        pairIndices.push(i, j);
+        break;
+      }
+    }
+  }
+
+  return pairIndices.reduce((sum, curr, index) => sum + curr, 0);
+}
+
+pairwise([1,4,2,3,0,5], 7);
 ```
 
 ##
