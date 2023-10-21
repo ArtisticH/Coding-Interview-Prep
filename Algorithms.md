@@ -180,7 +180,7 @@ Return the number of total permutations of the provided string that don't have r
 For example, `aab` should return 2 because it has 6 total permutations (`aab`, `aab`, `aba`, `aba`, `baa`, `baa`), but only 2 of them (`aba` and `aba`) don't have the same letter (in this case a) repeating.  
 
 
-📝
+📝 fail! 🚨
 ```javascript
 function permAlone(str) {
   const strArr = str.split('');
@@ -228,7 +228,61 @@ console.log(permAlone('a'));
 ```
 🔐 solution1
 ```javascript
+function permAlone(str) {
+  // Create a regex to match repeated consecutive characters.
+  let regex = /(.)\1+/;
+
+  // Split the string into an array of characters.
+  const arr = str.split("");
+  const permutations = [];
+  let tmp;
+
+  // Return 0 if str contains same character.
+  if (str.match(regex) !== null && str.match(regex)[0] === str) return 0;
+
+  // Function to swap variables' content.
+  function swap(index1, index2) {
+    tmp = arr[index1];
+    arr[index1] = arr[index2];
+    arr[index2] = tmp;
+  }
+
+  // Generate arrays of permutations using the algorithm.
+  function generate(int) {
+    if (int === 1) {
+      // Make sure to join the characters as we create  the permutation arrays
+      permutations.push(arr.join(""));
+    } else {
+      for (let i = 0; i != int; ++i) {
+        generate(int - 1);
+        swap(int % 2 ? 0 : i, int - 1);
+      }
+    }
+  }
+
+  generate(arr.length);
+
+  // Filter the array of repeated permutations.
+  const filtered = permutations.filter(function(string) {
+    return !string.match(regex);
+  });
+
+  // Return how many have no repetitions.
+  return filtered.length;
+}
+
+// Test here.
+permAlone("aab");
 ```
+
+**Code Explanation**
+- regex contains the regular expression to match repeated consecutive characters.
+- The string str is split into an array of characters, arr.
+- 0 is returned if str contains same characters.
+- The function swap() is used for the purpose of swapping the contents of two variable’s contents.
+- The next block of code uses Heap’s algorithm to generate arrays of permutations in permutations.
+- The filtered variable filters permutations to include only non-repeated permutations.
+- filtered.length returns the number of total permutations of the provided string that don’t have repeated consecutive letters.
 
 ## Pairwise
 Given an array `arr`, find element pairs whose sum equal the second argument `arg` and return the sum of their indices.
